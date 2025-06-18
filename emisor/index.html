@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulación de Pago - WebHook</title>
+</head>
+<body>
+  <h1>Simular Pago</h1>
+  <form id="pagoForm">
+    <label for="cliente">Cliente:</label>
+    <input type="text" id="cliente" name="cliente" value="Kevin" required><br><br>
+    <label for="monto">Monto:</label>
+    <input type="number" id="monto" name="monto" value="50" required><br><br>
+    <button type="submit">Enviar Pago</button>
+  </form>
+  <pre id="respuesta"></pre>
+
+  <script>
+    document.getElementById('pagoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const cliente = document.getElementById('cliente').value;
+      const monto = document.getElementById('monto').value;
+
+      const res = await fetch('/simular-pago', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cliente, monto })
+      });
+      const data = await res.json();
+      document.getElementById('respuesta').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
